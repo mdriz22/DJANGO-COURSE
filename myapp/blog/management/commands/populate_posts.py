@@ -1,12 +1,14 @@
 from typing import Any
-from blog.models import Post
+from blog.models import Post, Category
 from django.core.management.base import BaseCommand
+import random
 
 
 class Command(BaseCommand):
     help = "This command inserts post data"
     def handle(self, *args: Any, **options: Any):
-        
+        #Delete existing data
+        Post.objects.all().delete()
         titles =[
                 "Exploring the Future of AI: Trends to Watch",
                 "The Ultimate Guide to Remote Work Productivity",
@@ -31,49 +33,49 @@ class Command(BaseCommand):
 
                 ]
 
-        content =[
-               "Exploring the Future of AI: Trends to Watch",
-                "Discover the latest advancements in AI technology and how they will shape the future.",
-                "The Ultimate Guide to Remote Work Productivity",
-                "Tips and strategies to maximize efficiency and balance while working remotely.",
-                "10 Simple Recipes for Busy Weeknights",
-                "Quick and easy meal ideas to save time without sacrificing flavor.",
-                "The Power of Mindfulness in Everyday Life",
-                "Learn how practicing mindfulness can improve your mental and emotional well-being.",
-                "Top 5 Travel Destinations for 2024",
-                "Explore must-visit places that should be on your travel list for the upcoming year.",
-                "Mastering Python: Tips for Beginners",
-                "Essential tips to get started with Python and accelerate your learning curve.",
-                "How to Build a Successful Side Hustle",
-                "Actionable steps to turn your passion into a profitable side business.",
-                "The Impact of Social Media on Mental Health",
-                "Examine the effects of social media on mental well-being and how to manage it.",
-                "Designing the Perfect Home Office Space",
-                "Create a functional and inspiring workspace with these design ideas.",
-                "Breaking Down the Basics of Cryptocurrency",
-                "A beginner's guide to understanding cryptocurrency and how it works.",
-                "The Benefits of Daily Exercise: A Complete Guide",
-                "Discover how regular exercise boosts physical and mental health.",
-                "How to Create Stunning Visuals for Your Website",
-                "Tips on designing eye-catching visuals that enhance user engagement.",
-                "Understanding Big Data: An Introduction for Everyone",
-                "Learn the basics of big data and its applications in today’s digital world.",
-                "The Art of Personal Branding: 5 Key Strategies",
-                "Effective strategies to build and grow your personal brand.",
-                "Sustainable Living: Simple Changes for a Greener Lifestyle",
-                "Small lifestyle adjustments you can make to live more sustainably.",
-                "Why Networking is Essential for Career Growth",
-                "Understand the importance of networking and how it can advance your career.",
-                "Top 10 Books Every Entrepreneur Should Read",
-                "A curated list of must-read books for aspiring and seasoned entrepreneurs.",
-                "The Role of Blockchain in Cybersecurity",
-                "Explore how blockchain technology enhances security in digital networks.",
-                "How to Boost Your SEO Rankings in 2024",
-                "Proven techniques to improve your website’s search engine ranking in the new year.",
-                "Developing Healthy Habits: A Step-by-Step Approach",
-                "A practical guide to forming and maintaining habits that support a healthier life."
+        content = [
+                "Discover the latest advancements in AI technology and how they will shape the future. From machine learning breakthroughs to innovative applications, explore how AI is transforming industries and our daily lives.",
 
-                ]
+                "Tips and strategies to maximize efficiency and balance while working remotely. Learn how to create a structured schedule, set boundaries, and utilize productivity tools that keep you focused and engaged.",
+
+                "Quick and easy meal ideas to save time without sacrificing flavor. Discover recipes that require minimal prep and cooking time, yet deliver delicious and nutritious meals for busy days.",
+
+                "Learn how practicing mindfulness can improve your mental and emotional well-being. Understand the benefits of mindfulness techniques such as meditation and deep breathing, and how they can reduce stress and enhance focus.",
+
+                "Explore must-visit places that should be on your travel list for the upcoming year. From hidden gems to iconic landmarks, uncover travel destinations that offer unique experiences and unforgettable memories.",
+
+                "Essential tips to get started with Python and accelerate your learning curve. Gain insights into online resources, coding exercises, and community support that will help you master Python quickly and effectively.",
+
+                "Actionable steps to turn your passion into a profitable side business. Identify your niche, create a business plan, and explore marketing strategies that can help you monetize your skills and interests.",
+
+                "Examine the effects of social media on mental well-being and how to manage it. Understand the impact of online interactions on self-esteem and mental health, and learn strategies for healthy social media usage.",
+
+                "Create a functional and inspiring workspace with these design ideas. Discover tips for organizing your home office, choosing the right furniture, and incorporating personal touches that boost creativity and productivity.",
+
+                "A beginner's guide to understanding cryptocurrency and how it works. Learn about blockchain technology, different types of cryptocurrencies, and tips for safely investing in digital currencies.",
+
+                "Discover how regular exercise boosts physical and mental health. Explore various forms of exercise that can improve mood, enhance cognitive function, and promote overall well-being.",
+
+                "Tips on designing eye-catching visuals that enhance user engagement. Learn about color theory, typography, and design tools that can help you create stunning graphics for websites and social media.",
+
+                "Learn the basics of big data and its applications in today’s digital world. Understand the significance of data analytics, data mining, and how businesses leverage big data to make informed decisions.",
+
+                "Effective strategies to build and grow your personal brand. Discover how to define your brand identity, engage with your audience, and use social media to amplify your presence and credibility.",
+
+                "Small lifestyle adjustments you can make to live more sustainably. Explore eco-friendly habits, such as reducing waste, conserving energy, and supporting local businesses, that contribute to a healthier planet.",
+
+                "Understand the importance of networking and how it can advance your career. Learn how to build meaningful connections, leverage professional platforms, and navigate networking events to expand your opportunities.",
+
+                "A curated list of must-read books for aspiring and seasoned entrepreneurs. Dive into titles that offer valuable insights on entrepreneurship, innovation, and leadership to inspire your journey.",
+
+                "Explore how blockchain technology enhances security in digital networks. Understand the principles of decentralization, cryptography, and how blockchain can protect data integrity in various applications.",
+
+                "Proven techniques to improve your website’s search engine ranking in the new year. Learn about SEO best practices, content optimization, and the importance of backlinks to increase your online visibility.",
+
+                "A practical guide to forming and maintaining habits that support a healthier life. Discover strategies for setting achievable goals, tracking your progress, and overcoming obstacles to create lasting change."
+
+                   ]
+
 
         img_urls = [
                 "https://picsum.photos/id/1/800/400",
@@ -98,10 +100,11 @@ class Command(BaseCommand):
                 "https://picsum.photos/id/20/800/400",
                 ]
 
-
+        categories =Category.objects.all()
 
         for title,content, img_url in zip(titles , content , img_urls):
-            Post.objects.create(title = title, content=content, img_url=img_url)
+            category=random.choice(categories)
+            Post.objects.create(title = title, content=content, img_url=img_url,Category=category)
 
 
 
